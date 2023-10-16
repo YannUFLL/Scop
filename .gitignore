@@ -1,0 +1,4 @@
+obj/*.obj
+scop
+.vscode/
+.DS_Store
