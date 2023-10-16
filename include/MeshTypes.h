@@ -6,7 +6,7 @@
 /*   By: ydumaine <ydumaine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 18:23:06 by ydumaine          #+#    #+#             */
-/*   Updated: 2023/10/16 18:23:56 by ydumaine         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:30:35 by ydumaine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ struct Face
 
 class Mesh {
     public : 
+     Mesh(std::vector<Vertex> vertices, std::vector<TextureCoord> texCoords, std::vector<Normal> normals, std::vector<Face> faces): vertices(vertices), texCoords(texCoords), normals(normals), faces(faces) {};
      std::vector<Vertex> vertices;
      std::vector<TextureCoord> texCoords;
      std::vector<Normal> normals;
      std::vector<Face> faces;
-}
+};
