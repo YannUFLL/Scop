@@ -6,7 +6,7 @@
 /*   By: ydumaine <ydumaine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 18:23:06 by ydumaine          #+#    #+#             */
-/*   Updated: 2023/10/16 22:30:35 by ydumaine         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:21:25 by ydumaine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ class Mesh {
      std::vector<TextureCoord> texCoords;
      std::vector<Normal> normals;
      std::vector<Face> faces;
+     void printVertices() const;
 };

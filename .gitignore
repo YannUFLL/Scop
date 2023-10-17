@@ -1,4 +1,4 @@
-obj/*.obj
+obj/*.o
 scop
 .vscode/
 .DS_Store
