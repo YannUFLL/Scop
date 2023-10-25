@@ -1,21 +1,41 @@
 CC=g++
 CFLAGS=-I. -I./include -Werror -Wextra -Wall 
-FRAMEWORK=-framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation -framework CoreGraphics
+LDFLAGS=
 SRCDIR=src
 OBJDIR=obj
 BINDIR=.
-LIBDIR=./lib
+LIBDIRMACOS=./lib/macos
+LIBDIRLINUX=./lib/linux
 
-LIB=$(patsubst $(LIBDIR)/lib%.a,%,$(wildcard $(LIBDIR)/*.a))
+LIBMACOS=$(patsubst $(LIBDIRMACOS)/lib%.a,-l%,$(wildcard $(LIBDIRMACOS)/*.a))
+LIBLINUX=$(patsubst $(LIBDIRLINUX)/lib%.a,-l%,$(wildcard $(LIBDIRLINUX)/*.a))
 SRCS=$(wildcard $(SRCDIR)/*.cpp)
 OBJS=$(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
+#platform specific
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin) # macOS
+    LDFLAGS += -L$(LIBDIRMACOS) -l $(LIBMACOS) -framework Cocoa -framework IOKit -framework CoreVideo -framework CoreFoundation -framework CoreGraphic 
+endif
+ifeq ($(UNAME_S), Linux) # Linux
+    LDFLAGS +=-L$(LIBDIRLINUX) $(LIBLINUX) -lGL 
+endif
+
+all: $(BINDIR)/scop
+
+re : fclean all
+
 $(BINDIR)/scop: $(OBJS)
-	$(CC) -o $@ $^ $(CFLAGS) $(FRAMEWORK) -L$(LIBDIR) -l $(LIB)
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-.PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o $(BINDIR)/scop
+	rm -f $(OBJDIR)/*.o 
+
+fclean: clean
+	rm -f $(BINDIR)/scop
+
+.PHONY: clean fclean
